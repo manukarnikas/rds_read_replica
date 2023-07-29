@@ -1,5 +1,6 @@
 const UserController = require("./controller/UserController");
 const BookController = require("./controller/BookController");
+const LogController = require("./controller/LogController");
 const { writerDB, readerDB } = require("./database/Database");
 const express = require("express");
 const cors = require("cors");
@@ -14,14 +15,14 @@ const init = async () => {
     .then(()=>{
       console.log('Writer Db authenticated');
     }).catch(err=>{
-      throw new Error(`Failed to Writer DB connect with error ${err}`);
+      throw new Error(`Failed to connect to Writer DB with error ${err}`);
     });
 
     await readerDB.authenticate()
     .then(()=>{
       console.log('Reader Db authenticated');
     }).catch(err=>{
-      throw new Error(`Failed to Reader DB connect with error ${err}`);
+      throw new Error(`Failed to connect to Reader DB with error ${err}`);
     });
 
     //middleware
@@ -43,8 +44,15 @@ const init = async () => {
     bookRouter.put("/:id", BookController.updateBook);
     bookRouter.delete("/:id", BookController.deleteBook);
 
+    const logRouter = express.Router();
+    logRouter.get("/:id", LogController.getLog);
+    logRouter.post("/", LogController.addLog);
+    logRouter.put("/:id", LogController.updateLog);
+    logRouter.delete("/:id", LogController.deleteLog);
+
     app.use("/user", userRouter);
     app.use("/book", bookRouter);
+    app.use("/log", logRouter);
  
     console.log('initialized routes');
     //listen

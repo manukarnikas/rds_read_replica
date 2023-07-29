@@ -1,21 +1,17 @@
 const { Sequelize } = require('sequelize');
 const { writerDB, readerDB } = require('../database/Database');
 
-const WriteUser = writerDB.define('User', {
+const WriteLog= writerDB.define('Log', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: {
-        type: Sequelize.STRING,
+    userId: {
+        type: Sequelize.INTEGER,
     },
-    dob: {
-        type: Sequelize.DATE,
-    },
-    email: {
-        type: Sequelize.STRING,
-        unique: true,
+    bookId: {
+        type: Sequelize.INTEGER,
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -25,24 +21,17 @@ const WriteUser = writerDB.define('User', {
     }
 });
 
-const ReadUser = readerDB.define('User', {
+const ReadLog = readerDB.define('Log', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: {
-        type: Sequelize.STRING,
-        require: true
+    userId: {
+        type: Sequelize.INTEGER,
     },
-    dob: {
-        type: Sequelize.DATE,
-        require: true
-    },
-    email: {
-        type: Sequelize.STRING,
-        unique: true,
-        require: true
+    bookId: {
+        type: Sequelize.INTEGER,
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -53,6 +42,6 @@ const ReadUser = readerDB.define('User', {
 });
 
 module.exports = {
-    WriteUser,
-    ReadUser
+    WriteLog,
+    ReadLog
 };
